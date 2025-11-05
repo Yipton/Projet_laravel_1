@@ -1,18 +1,8 @@
-<!DOCTYPE html>
-<html lang="fr" data-theme="light">
+@extends('layouts.default')
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="/css/pico.css" rel="stylesheet" />
-    <link href="/css/styles.css" rel="stylesheet" />
-    <title>Inscription</title>
-</head>
+@section('title', 'Inscription')
 
-<body>
-    <div class="wrapper">
-        @include('includes.header')
-        <main class="container">
+@section('content')
             <h1>Inscription</h1>
             <form method="POST" action="{{ route('inscription.store') }}">
 
@@ -30,12 +20,4 @@
 
                 <button type="submit">Valider</button>
             </form>
-
-        </main>
-
-        @include('includes.footer')
-
-    </div>
-</body>
-
-</html>
+@endsection

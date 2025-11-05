@@ -1,18 +1,8 @@
-<!DOCTYPE html>
-<html lang="fr" data-theme="light">
+@extends('layouts.default')
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="{{ asset('css/pico.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/styles.css') }}" rel="stylesheet">
-    <title>Lien envoyé</title>
-</head>
+@section('title', 'Lien envoyé')
 
-<body>
-    <div class="wrapper">
-        @include('includes.header')
-        <main class="container">
+@section('content')
             <h1>Vérifie ta boîte mail</h1>
 
             @php($u = auth()->user())
@@ -31,9 +21,4 @@
                 @csrf
                 <button type="submit">Renvoyer le lien</button>
             </form>
-        </main>
-        @include('includes.footer')
-    </div>
-</body>
-
-</html>
+@endsection
