@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -8,9 +9,10 @@
   <link href="/css/styles.css" rel="stylesheet" />
   <title>Accueil — Projet concours-robots</title>
 </head>
+
 <body>
   <div class="wrapper">
-    <?php include 'header.html';?>
+    <?php include 'header.html'; ?>
 
     <main class="container">
       <!-- HERO -->
@@ -35,8 +37,7 @@
               alt="Robot de compétition sur une piste"
               loading="eager"
               decoding="async"
-              style="width:100%;height:auto;border-radius:1rem"
-            />
+              style="width:100%;height:auto;border-radius:1rem" />
             <figcaption class="secondary">Concours des collèges — Technologie 3<sup>e</sup></figcaption>
           </figure>
         </article>
@@ -73,7 +74,8 @@
       </section>
     </main>
 
-    <?php include 'footer.html';?>
+    <?php include 'footer.html'; ?>
   </div>
 </body>
+
 </html>

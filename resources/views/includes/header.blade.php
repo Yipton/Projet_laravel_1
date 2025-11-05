@@ -1,0 +1,24 @@
+<link href="pico.css" rel="stylesheet" />
+<link href="style.css" rel="stylesheet" />
+<header class="headerBlack">
+    <strong>Projet concours-robots</strong>
+    <nav class="menu_header">
+        <a href="/">Accueil</a>
+        <a href="/mentions">Mentions légales</a>
+        <a href="/preinscription">Inscription</a>
+    </nav>
+
+    <nav class="bouton_menu_header">
+        <ul>
+            <li>
+                <details class="dropdown">
+                    <summary>Menu</summary>
+                    <ul dir="">
+                        <li><a href="/">Accueil</a></li>
+                        <li><a href="/mentions">Mentions légales</a></li>
+                        <li><a href="/preinscription">Inscription</a></li>
+                </details>
+            </li>
+        </ul>
+    </nav>
+</header>
