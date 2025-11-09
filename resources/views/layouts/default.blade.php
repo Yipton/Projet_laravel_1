@@ -8,9 +8,6 @@
   <link href="/css/style.css" rel="stylesheet" />
   <title>@yield('title', 'Concours Robot')</title>
 </head>
-<style>
-  
-</style>
 <body>
   <div class="wrapper">
     <header>

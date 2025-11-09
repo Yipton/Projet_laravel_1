@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\PageController;
 
 class AutoInscriptionsController extends Controller
 {
@@ -64,26 +65,37 @@ class AutoInscriptionsController extends Controller
 
         return redirect()->route('verification.notice');
     }
-
-    public function inscription(Request $request)
+public function inscription(Request $request)
     {
+        // L'utilisateur est déjà authentifié/validé par email
+        // -> Protèger la route avec middleware('auth','verified')
+
+        
+        
         $data = $request->validate([
-            'email'  => ['required', 'email', 'max:255'],
-            'prenom' => ['nullable', 'string', 'max:255'],
-            'nom'    => ['nullable', 'string', 'max:255'],
+            'prenom'   => ['required', 'string', 'max:255'],
+            'nom'      => ['required', 'string', 'max:255'],
+            'genre'    => ['required', 'in:H,F,I'], // adapter si besoin ou récupérer depuis la bdd directement
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
+        ], [
+            'password.confirmed' => 'Les deux mots de passe ne correspondent pas.',
+            'password.min'       => 'Le mot de passe doit contenir au moins :min caractères.',
         ]);
 
-        $id = $data['id'];
-        $nom = strtolower(trim($data['nom']));
-        $prenom = strtolower(trim($data['prenom']));
-        $code_genre = $data['code_genre'];
+        $id = $request->user()->id;
+        $prenom = strtolower($data['prenom']);
+        $nom = strtolower($data['nom']);
+        $code_genre = $data['genre'];
         $code_statut = 'A';
-        DB::update('update users set name=:');
+        $password = password_hash($data['password'], PASSWORD_DEFAULT);
+
         DB::insert(
-            'insert into utilisateurs (id, nom, prenom, code_genre, code_statut) 
-                    values (:id, :nom, :prenom, :code_genre, :code_statut)',
-            ['id' => $id, 'nom' => $nom, 'prenom' => $prenom, 'code_genre' => $code_genre, 'code_statut' => $code_statut]
+            'insert into mcd_utilisateurs (id, nom, prenom, code_statut, code_genre) values (:id, :nom, :prenom, :code_statut, :code_genre)
+        ',['id' => $id, 'nom' => $nom, 'prenom' => $prenom, 'code_statut' => $code_statut, 'code_genre' => $code_genre]);
+
+        DB::update(
+            'update mcd_users set name = :name, password = :password where id = :id', ['name' => $nom, 'password' => $password, 'id' => $id]
         );
-        return redirect()->route('verification.notice');
+        return to_route('home')->with('success', 'Inscription réussie !');
     }
 }

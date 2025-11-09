@@ -14,6 +14,10 @@ $logout = action(function (Logout $logoutAction) {
         <button class="burger" id="burger">
             <span></span><span></span><span></span>
         </button>
+       @if (Auth::check())
+         <span> | {{ Auth::user()->name }}</span>
+       @endif
+
     </div>
 
     <ul class="nav-links" id="nav-links">
