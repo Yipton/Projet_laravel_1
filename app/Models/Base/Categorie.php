@@ -7,14 +7,14 @@
 namespace App\Models\Base;
 
 use App\Models\Classer;
-use App\Models\Concour;
-use App\Models\Epreufe;
+use App\Models\Concours;
+use App\Models\Epreuve;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class Category
+ * Class Categorie
  * 
  * @property int $id
  * @property string $code
@@ -24,13 +24,13 @@ use Illuminate\Database\Eloquent\Model;
  * @property Carbon|null $updated_at
  * @property int $id_concours
  * 
- * @property Concour $concour
+ * @property Concours $concours
  * @property Collection|Classer[] $classers
- * @property Collection|Epreufe[] $epreuves
+ * @property Collection|Epreuve[] $epreuves
  *
  * @package App\Models\Base
  */
-class Category extends Model
+class Categorie extends Model
 {
 	protected $table = 'mcd_categories';
 
@@ -38,9 +38,9 @@ class Category extends Model
 		'id_concours' => 'int'
 	];
 
-	public function concour()
+	public function concours()
 	{
-		return $this->belongsTo(Concour::class, 'id_concours');
+		return $this->belongsTo(Concours::class, 'id_concours');
 	}
 
 	public function classers()
@@ -50,6 +50,6 @@ class Category extends Model
 
 	public function epreuves()
 	{
-		return $this->hasMany(Epreufe::class, 'id_categorie');
+		return $this->hasMany(Epreuve::class, 'id_categorie');
 	}
 }

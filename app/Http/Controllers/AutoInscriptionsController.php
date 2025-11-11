@@ -98,4 +98,28 @@ public function inscription(Request $request)
         );
         return to_route('home')->with('success', 'Inscription réussie !');
     }
+
+    public function afficher_demandes_abo(){
+        return  DB::select('select nom, prenom from mcd_utilisateurs where code_statut=\'A\'');
+    }
+    
+    public function renvoyer_lien_verif_email(Request $request)
+    {
+        $user = $request->user();
+
+        // 1) Si l'email est déjà vérifié, on décide selon l'existence du profil
+        if ($user->hasVerifiedEmail()) {
+
+            $hasProfile = Utilisateur::where('id', $user->id)->exists();          // PK partagée
+
+            return $hasProfile
+                ? redirect()->route('home')
+                : redirect()->route('inscription')->with('info', 'Termine ton inscription.');
+        }
+
+        // 2) Email non vérifié → renvoyer la notif
+        $user->sendEmailVerificationNotification();
+
+        return back()->with('message', 'Un nouveau lien de vérification t’a été envoyé.');
+    }
 }

@@ -229,9 +229,7 @@ return [
         */
 
         'hidden' => [
-            '*secret*',
-            '*password',
-            '*token',
+            '*secret*', '*password', '*token',
         ],
 
         /*
@@ -282,19 +280,24 @@ return [
         */
 
         'except' => [
-            'mcd_migrations',
-            'mcd_failed_jobs',
-            'mcd_password_resets',
-            'mcd_personal_access_tokens',
-            'mcd_password_reset_tokens',
-            'mcd_cache',
-            'mcd_cache_locks',
-            'mcd_jobs',
-            'mcd_job_batches',
-            'mcd_sessions',
-            'mcd_users',
+             'mcd_migrations',
+             'mcd_failed_jobs',
+             'mcd_password_resets',
+             'mcd_personal_access_tokens',
+             'mcd_password_reset_tokens',
+             'mcd_cache',
+             'mcd_cache_locks',
+             'mcd_jobs',
+             'mcd_job_batches',
+             'mcd_sessions',
+             'mcd_users',
         ],
 
+        'filters' => [
+            'tables' => [
+                'only' => ['mcd_%'], // ← Ne générer que les tables commençant par mcd_
+            ],
+        ],
         /*
         |--------------------------------------------------------------------------
         | Specified Tables
@@ -350,7 +353,16 @@ return [
         */
 
         'model_names' => [
-            'mcd_pays' => 'pay'
+            'mcd_categories'   => 'Categorie',
+            'mcd_colleges'     => 'College',
+            'mcd_concours'     => 'Concours',
+            'mcd_epreuves'     => 'Epreuve',
+            'mcd_equipes'      => 'Equipe',
+            'mcd_genres'       => 'Genre',
+            'mcd_pays'         => 'Pays',
+            'mcd_roles'        => 'Role',
+            'mcd_statuts'      => 'Statut',
+            'mcd_utilisateurs' => 'Utilisateur',
         ],
 
         /*
@@ -434,7 +446,9 @@ return [
         | You can enable pluralization for certain tables
         |
         */
-        'override_pluralize_for' => [],
+        'override_pluralize_for' => [
+
+        ],
 
         /*
         |--------------------------------------------------------------------------
@@ -523,18 +537,18 @@ return [
     |
     */
 
-    //    'connections' => [
-    //        'read_only_external' => [
-    //            'parent' => \App\Models\ReadOnlyModel::class,
-    //            'connection' => true,
-    //            'users' => [
-    //                'connection' => false,
-    //            ],
-    //            'my_other_database' => [
-    //                'password_resets' => [
-    //                    'connection' => false,
-    //                ]
-    //            ]
-    //        ],
-    //    ],
+//    'connections' => [
+//        'read_only_external' => [
+//            'parent' => \App\Models\ReadOnlyModel::class,
+//            'connection' => true,
+//            'users' => [
+//                'connection' => false,
+//            ],
+//            'my_other_database' => [
+//                'password_resets' => [
+//                    'connection' => false,
+//                ]
+//            ]
+//        ],
+//    ],
 ];

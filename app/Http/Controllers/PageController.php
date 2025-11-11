@@ -27,6 +27,10 @@ class PageController extends Controller
         return view('preinscription');
     }
 
+    public function lien_verif_email_envoye()
+    {
+        return view('auth.lien_envoye');
+    }
 
     public function eleves(): View
     {

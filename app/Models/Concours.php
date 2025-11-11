@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
-use App\Models\Base\Concour as BaseConcour;
+use App\Models\Base\Concours as BaseConcours;
 
-class Concour extends BaseConcour
+class Concours extends BaseConcours
 {
 	protected $fillable = [
 		'nom',

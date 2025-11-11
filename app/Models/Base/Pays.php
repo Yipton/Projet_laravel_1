@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class Pay
+ * Class Pays
  * 
  * @property string $code
  * @property string $nom
@@ -24,7 +24,7 @@ use Illuminate\Database\Eloquent\Model;
  *
  * @package App\Models\Base
  */
-class Pay extends Model
+class Pays extends Model
 {
 	protected $table = 'mcd_pays';
 	protected $primaryKey = 'code';

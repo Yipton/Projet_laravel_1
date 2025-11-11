@@ -6,15 +6,15 @@
 
 namespace App\Models\Base;
 
-use App\Models\Category;
-use App\Models\Concour;
+use App\Models\Categorie;
+use App\Models\Concours;
 use App\Models\Scorer;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class Epreufe
+ * Class Epreuve
  * 
  * @property int $id
  * @property string $code
@@ -27,13 +27,13 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $id_concours
  * @property int $id_categorie
  * 
- * @property Concour $concour
- * @property Category $category
+ * @property Concours $concours
+ * @property Categorie $categorie
  * @property Collection|Scorer[] $scorers
  *
  * @package App\Models\Base
  */
-class Epreufe extends Model
+class Epreuve extends Model
 {
 	protected $table = 'mcd_epreuves';
 
@@ -44,14 +44,14 @@ class Epreufe extends Model
 		'id_categorie' => 'int'
 	];
 
-	public function concour()
+	public function concours()
 	{
-		return $this->belongsTo(Concour::class, 'id_concours');
+		return $this->belongsTo(Concours::class, 'id_concours');
 	}
 
-	public function category()
+	public function categorie()
 	{
-		return $this->belongsTo(Category::class, 'id_categorie');
+		return $this->belongsTo(Categorie::class, 'id_categorie');
 	}
 
 	public function scorers()

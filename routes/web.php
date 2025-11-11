@@ -15,19 +15,18 @@ Route::get('/preinscription', [PageController::class, 'create'])->name('preinscr
 Route::post('/preinscription', [AutoInscriptionsController::class, 'store'])->name('preinscription.store');
 
 // --- Vérification email ---
-Route::get('/email/verify', function () {
-    return view('auth.lien_envoye');
-})->middleware('auth')->name('verification.notice');
+Route::get('/email/verify', [PageController::class, 'lien_verif_email_envoye'])
+    ->middleware('auth')->name('verification.notice');
 
+// --- Inscription ---
 Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
     $request->fulfill();
     return redirect()->route('inscription');
 })->middleware(['auth', 'signed'])->name('verification.verify');
 
-Route::post('/email/verification-notification', function (Request $request) {
-    $request->user()->sendEmailVerificationNotification();
-    return back()->with('message', 'Verification link sent!');
-})->middleware(['auth', 'throttle:6,1'])->name('verification.send');
+// --- Renvoyer la vérification d'email ---
+Route::post('/email/verification-notification', [AutoInscriptionsController::class, 'renvoyer_lien_verif_email'])
+->middleware(['auth', 'throttle:6,1'])->name('verification.send');
 
 
 // Collèges
@@ -48,10 +47,11 @@ Route::get('/edition/2025', [PageController::class, 'show2025'])->name('edition.
 Route::get('/saisie-note', [PageController::class, 'saisie_note'])->name('saisieNote.index');
 
 // Page Gestion
-Route::prefix('gestion')->group(function () {
+    Route::prefix('gestion')->group(function () {
     Route::get('/epreuves', [PageController::class, 'epreuves'])->name('gestion.epreuves');
     Route::get('/colleges', [PageController::class, 'colleges'])->name('gestion.colleges');
     Route::get('/abonnement', [PageController::class, 'abonnement'])->name('gestion.abonnement');
+    Route::post('/abonnement', [PageController::class, 'confirmer_auto_abo'])->name('gestion.confirmer_auto_abo');
     Route::get('/role', [PageController::class, 'role'])->name('gestion.role');
     Route::get('/edition', [PageController::class, 'edition'])->name('gestion.edition');
     Route::get('/exportation', [PageController::class, 'exportation'])->name('gestion.exportation');

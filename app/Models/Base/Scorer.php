@@ -6,7 +6,7 @@
 
 namespace App\Models\Base;
 
-use App\Models\Epreufe;
+use App\Models\Epreuve;
 use App\Models\Equipe;
 use App\Models\Utilisateur;
 use Carbon\Carbon;
@@ -25,7 +25,7 @@ use Illuminate\Database\Eloquent\Model;
  * 
  * @property Utilisateur $utilisateur
  * @property Equipe $equipe
- * @property Epreufe $epreufe
+ * @property Epreuve $epreuve
  *
  * @package App\Models\Base
  */
@@ -51,8 +51,8 @@ class Scorer extends Model
 		return $this->belongsTo(Equipe::class, 'id_equipe');
 	}
 
-	public function epreufe()
+	public function epreuve()
 	{
-		return $this->belongsTo(Epreufe::class, 'id_epreuve');
+		return $this->belongsTo(Epreuve::class, 'id_epreuve');
 	}
 }

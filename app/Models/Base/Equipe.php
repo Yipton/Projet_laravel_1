@@ -8,7 +8,7 @@ namespace App\Models\Base;
 
 use App\Models\Classer;
 use App\Models\College;
-use App\Models\Concour;
+use App\Models\Concours;
 use App\Models\Scorer;
 use App\Models\Utilisateur;
 use Carbon\Carbon;
@@ -28,7 +28,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $id_concours
  * @property int $id_college
  * 
- * @property Concour $concour
+ * @property Concours $concours
  * @property College $college
  * @property Collection|Classer[] $classers
  * @property Collection|Scorer[] $scorers
@@ -45,9 +45,9 @@ class Equipe extends Model
 		'id_college' => 'int'
 	];
 
-	public function concour()
+	public function concours()
 	{
-		return $this->belongsTo(Concour::class, 'id_concours');
+		return $this->belongsTo(Concours::class, 'id_concours');
 	}
 
 	public function college()

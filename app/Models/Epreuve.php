@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
-use App\Models\Base\Epreufe as BaseEpreufe;
+use App\Models\Base\Epreuve as BaseEpreuve;
 
-class Epreufe extends BaseEpreufe
+class Epreuve extends BaseEpreuve
 {
 	protected $fillable = [
 		'code',

@@ -6,9 +6,9 @@
 
 namespace App\Models\Base;
 
-use App\Models\Category;
+use App\Models\Categorie;
 use App\Models\Engager;
-use App\Models\Epreufe;
+use App\Models\Epreuve;
 use App\Models\Equipe;
 use App\Models\Participer;
 use Carbon\Carbon;
@@ -16,7 +16,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class Concour
+ * Class Concours
  * 
  * @property int $id
  * @property string $nom
@@ -30,15 +30,15 @@ use Illuminate\Database\Eloquent\Model;
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * 
- * @property Collection|Category[] $categories
+ * @property Collection|Categorie[] $categories
  * @property Collection|Engager[] $engagers
- * @property Collection|Epreufe[] $epreuves
+ * @property Collection|Epreuve[] $epreuves
  * @property Collection|Equipe[] $equipes
  * @property Collection|Participer[] $participers
  *
  * @package App\Models\Base
  */
-class Concour extends Model
+class Concours extends Model
 {
 	protected $table = 'mcd_concours';
 
@@ -53,7 +53,7 @@ class Concour extends Model
 
 	public function categories()
 	{
-		return $this->hasMany(Category::class, 'id_concours');
+		return $this->hasMany(Categorie::class, 'id_concours');
 	}
 
 	public function engagers()
@@ -63,7 +63,7 @@ class Concour extends Model
 
 	public function epreuves()
 	{
-		return $this->hasMany(Epreufe::class, 'id_concours');
+		return $this->hasMany(Epreuve::class, 'id_concours');
 	}
 
 	public function equipes()

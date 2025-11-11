@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
-use App\Models\Base\Pay as BasePay;
+use App\Models\Base\Pays as BasePays;
 
-class Pay extends BasePay
+class Pays extends BasePays
 {
 	protected $fillable = [
 		'nom',

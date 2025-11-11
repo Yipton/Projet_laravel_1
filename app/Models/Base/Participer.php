@@ -7,7 +7,7 @@
 namespace App\Models\Base;
 
 use App\Models\College;
-use App\Models\Concour;
+use App\Models\Concours;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
@@ -21,7 +21,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property Carbon|null $updated_at
  * 
  * @property College $college
- * @property Concour $concour
+ * @property Concours $concours
  *
  * @package App\Models\Base
  */
@@ -40,8 +40,8 @@ class Participer extends Model
 		return $this->belongsTo(College::class, 'id_college');
 	}
 
-	public function concour()
+	public function concours()
 	{
-		return $this->belongsTo(Concour::class, 'id_concours');
+		return $this->belongsTo(Concours::class, 'id_concours');
 	}
 }

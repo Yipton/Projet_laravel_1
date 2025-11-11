@@ -6,7 +6,7 @@
 
 namespace App\Models\Base;
 
-use App\Models\Category;
+use App\Models\Categorie;
 use App\Models\Equipe;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
@@ -22,7 +22,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property Carbon|null $updated_at
  * 
  * @property Equipe $equipe
- * @property Category $category
+ * @property Categorie $categorie
  *
  * @package App\Models\Base
  */
@@ -42,8 +42,8 @@ class Classer extends Model
 		return $this->belongsTo(Equipe::class, 'id_equipe');
 	}
 
-	public function category()
+	public function categorie()
 	{
-		return $this->belongsTo(Category::class, 'id_categorie');
+		return $this->belongsTo(Categorie::class, 'id_categorie');
 	}
 }

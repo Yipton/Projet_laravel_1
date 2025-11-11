@@ -8,7 +8,7 @@ namespace App\Models\Base;
 
 use App\Models\Equipe;
 use App\Models\Participer;
-use App\Models\Pay;
+use App\Models\Pays;
 use App\Models\Utilisateur;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
@@ -31,7 +31,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property Carbon|null $updated_at
  * @property string $code_pays
  * 
- * @property Pay $pay
+ * @property Pays $pays
  * @property Collection|Equipe[] $equipes
  * @property Collection|Participer[] $participers
  * @property Collection|Utilisateur[] $utilisateurs
@@ -42,9 +42,9 @@ class College extends Model
 {
 	protected $table = 'mcd_colleges';
 
-	public function pay()
+	public function pays()
 	{
-		return $this->belongsTo(Pay::class, 'code_pays');
+		return $this->belongsTo(Pays::class, 'code_pays');
 	}
 
 	public function equipes()

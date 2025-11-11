@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
-use App\Models\Base\Category as BaseCategory;
+use App\Models\Base\Categorie as BaseCategorie;
 
-class Category extends BaseCategory
+class Categorie extends BaseCategorie
 {
 	protected $fillable = [
 		'code',
