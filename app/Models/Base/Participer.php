@@ -27,7 +27,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Participer extends Model
 {
-	protected $table = 'mcd_participer';
+	protected $table = 'participer';
 	public $incrementing = false;
 
 	protected $casts = [

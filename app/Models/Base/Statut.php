@@ -26,7 +26,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Statut extends Model
 {
-	protected $table = 'mcd_statuts';
+	protected $table = 'statuts';
 	protected $primaryKey = 'code';
 	public $incrementing = false;
 

@@ -4,18 +4,26 @@ namespace App\Http\Controllers;
 
 use Illuminate\View\View;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use App\Models\Utilisateur;
 
 class PageController extends Controller
 {
     public function home(): View
     {
-         $user = Auth::user();
+        $user = Auth::user();
         return view('accueil', ['user' => $user]);
     }
 
     public function mentions(): View
     {
         return view('mentions');
+    }
+
+    public function email_verification(EmailVerificationRequest $request)
+    {
+        $request->fulfill();
+        return redirect()->route('inscription');
     }
 
     public function inscription(): View
@@ -62,7 +70,7 @@ class PageController extends Controller
     {
         return view('saisie-note');
     }
-    
+
     public function epreuvesGestion(): View
     {
         return view('gestion.epreuves');
@@ -73,7 +81,8 @@ class PageController extends Controller
     }
     public function abonnement(): View
     {
-        return view('gestion.abonnement');
+        $demandes = Utilisateur::afficher_demandes_abo();
+        return view('gestion.abonnement', ['demandes' => $demandes]);
     }
     public function role(): View
     {
@@ -91,7 +100,7 @@ class PageController extends Controller
     {
         return view('gestion.modification');
     }
-    
+
     public function genre(): View
     {
         return view('admin.genre');

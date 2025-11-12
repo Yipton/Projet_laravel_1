@@ -3,23 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Utilisateur;
 use Illuminate\Http\Request;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Facades\DB;
-use App\Http\Controllers\PageController;
+
 
 class AutoInscriptionsController extends Controller
 {
-    /**
-     * Traite la préinscription :
-     * - crée un utilisateur (mdp temporaire)
-     * - déclenche l'email de vérif (event Registered)
-     * - connecte l'utilisateur
-     * - redirige vers la notice
-     */
+
+    // Préinscription
     public function store(Request $request)
     {
         $data = $request->validate([
@@ -29,49 +23,52 @@ class AutoInscriptionsController extends Controller
         ]);
 
         $email = strtolower(trim($data['email']));
-        $name  = trim(($data['prenom'] ?? '') . ' ' . ($data['nom'] ?? '')) ?: $email;
+        $name  = $email;
 
-        // Vérifie si un utilisateur existe déjà avec cet email
-        $existing = User::where('email', $email)->first();
+        $user = User::find_by_email($email);
+        $view = redirect()->route('login'); // valeur par défaut
 
-        // Cas 1 : existe déjà + pas encore vérifié → renvoyer le mail de vérif
-        if ($existing && !$existing->hasVerifiedEmail()) {
-            // Relance l'envoi du mail de vérification
-            $existing->sendEmailVerificationNotification();
+        // Cas 1 : existe déjà + pas encore vérifié
+        if ($user && !$user->hasVerifiedEmail()) {
+            $user->sendEmailVerificationNotification();
 
-            // Connecte l'utilisateur existant pour l'afficher sur la notice
-            Auth::login($existing);
-
-            return redirect()->route('verification.notice')
+            $view = redirect()->route('verification.notice')
                 ->with('message', 'Un compte existe déjà, un nouveau lien t’a été renvoyé.');
         }
 
-        // Cas 2 : déjà vérifié → message d’erreur explicite
-        if ($existing && $existing->hasVerifiedEmail()) {
-            return back()->withErrors([
-                'email' => 'Cet email est déjà utilisé et vérifié. Essaie de te connecter.',
-            ]);
+        // Cas 2 : existe déjà + vérifié + pas encore inscrit => on redirige vers mdp oublié
+        elseif ($user && $user->hasVerifiedEmail() && !Utilisateur::existe($user->id)) {
+            $view = redirect()->route('password.request')   // 
+                ->with('info', 'Ton email est vérifié. Crée ton mot de passe pour terminer ton inscription.');
         }
 
-        // Cas 3 : nouvel utilisateur → création normale
-        $user = User::create([
-            'name'     => $name,
-            'email'    => $email,
-            'password' => Hash::make(str()->random(40)),
-        ]);
+        // Cas 3 : existe déjà + vérifié + déjà inscrit
+        elseif ($user && $user->hasVerifiedEmail() && Utilisateur::existe($user->id)) {
+            $view = redirect()->route('login')
+                ->with('info', 'Ce compte est déjà actif. Connecte-toi simplement.');
+        }
 
-        event(new Registered($user));
-        Auth::login($user);
+        // Cas 4 : nouvel utilisateur
+        else {
+            $plain = str()->random(40);                  // mot de passe temporaire
+            $user  = User::creer_user($name, $email, $plain);
 
-        return redirect()->route('verification.notice');
+            event(new Registered($user));                // déclenche l’envoi du mail
+            Auth::login($user);                          // connecté, mais bloqué par 'verified'
+
+            $view = redirect()->route('verification.notice');
+        }
+
+        return $view;
     }
-public function inscription(Request $request)
+
+
+
+    public function inscription(Request $request)
     {
         // L'utilisateur est déjà authentifié/validé par email
         // -> Protèger la route avec middleware('auth','verified')
 
-        
-        
         $data = $request->validate([
             'prenom'   => ['required', 'string', 'max:255'],
             'nom'      => ['required', 'string', 'max:255'],
@@ -89,20 +86,14 @@ public function inscription(Request $request)
         $code_statut = 'A';
         $password = password_hash($data['password'], PASSWORD_DEFAULT);
 
-        DB::insert(
-            'insert into mcd_utilisateurs (id, nom, prenom, code_statut, code_genre) values (:id, :nom, :prenom, :code_statut, :code_genre)
-        ',['id' => $id, 'nom' => $nom, 'prenom' => $prenom, 'code_statut' => $code_statut, 'code_genre' => $code_genre]);
+        Utilisateur::abonnement($id, $nom, $prenom, $code_statut, $code_genre);
+        User::abonnement($nom, $password, $id);
 
-        DB::update(
-            'update mcd_users set name = :name, password = :password where id = :id', ['name' => $nom, 'password' => $password, 'id' => $id]
-        );
         return to_route('home')->with('success', 'Inscription réussie !');
     }
 
-    public function afficher_demandes_abo(){
-        return  DB::select('select nom, prenom from mcd_utilisateurs where code_statut=\'A\'');
-    }
-    
+
+
     public function renvoyer_lien_verif_email(Request $request)
     {
         $user = $request->user();
@@ -110,16 +101,16 @@ public function inscription(Request $request)
         // 1) Si l'email est déjà vérifié, on décide selon l'existence du profil
         if ($user->hasVerifiedEmail()) {
 
-            $hasProfile = Utilisateur::where('id', $user->id)->exists();          // PK partagée
-
-            return $hasProfile
+            $return = Utilisateur::has_profile($user->id)
                 ? redirect()->route('home')
                 : redirect()->route('inscription')->with('info', 'Termine ton inscription.');
         }
 
         // 2) Email non vérifié → renvoyer la notif
-        $user->sendEmailVerificationNotification();
-
-        return back()->with('message', 'Un nouveau lien de vérification t’a été envoyé.');
+        else {
+            $user->sendEmailVerificationNotification();
+            $return = back()->with('message', 'Un nouveau lien de vérification t’a été envoyé.');
+        }
+        return $return;
     }
 }

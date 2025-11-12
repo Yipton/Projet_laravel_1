@@ -28,7 +28,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Classer extends Model
 {
-	protected $table = 'mcd_classer';
+	protected $table = 'classer';
 	public $incrementing = false;
 
 	protected $casts = [

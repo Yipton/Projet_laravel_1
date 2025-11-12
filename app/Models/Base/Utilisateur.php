@@ -44,7 +44,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Utilisateur extends Model
 {
-	protected $table = 'mcd_utilisateurs';
+	protected $table = 'utilisateurs';
 	public $incrementing = false;
 
 	protected $casts = [

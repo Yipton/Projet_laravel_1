@@ -40,7 +40,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Concours extends Model
 {
-	protected $table = 'mcd_concours';
+	protected $table = 'concours';
 
 	protected $casts = [
 		'date_debut' => 'datetime',

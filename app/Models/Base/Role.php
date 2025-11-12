@@ -27,7 +27,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Role extends Model
 {
-	protected $table = 'mcd_roles';
+	protected $table = 'roles';
 
 	public function engagers()
 	{

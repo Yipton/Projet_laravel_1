@@ -38,7 +38,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Equipe extends Model
 {
-	protected $table = 'mcd_equipes';
+	protected $table = 'equipes';
 
 	protected $casts = [
 		'id_concours' => 'int',

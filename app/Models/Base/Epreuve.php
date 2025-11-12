@@ -35,7 +35,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Epreuve extends Model
 {
-	protected $table = 'mcd_epreuves';
+	protected $table = 'epreuves';
 
 	protected $casts = [
 		'score_max' => 'float',

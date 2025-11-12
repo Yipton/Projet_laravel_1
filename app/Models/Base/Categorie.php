@@ -32,7 +32,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Categorie extends Model
 {
-	protected $table = 'mcd_categories';
+	protected $table = 'categories';
 
 	protected $casts = [
 		'id_concours' => 'int'

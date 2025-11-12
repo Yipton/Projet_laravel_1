@@ -26,7 +26,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Pays extends Model
 {
-	protected $table = 'mcd_pays';
+	protected $table = 'pays';
 	protected $primaryKey = 'code';
 	public $incrementing = false;
 

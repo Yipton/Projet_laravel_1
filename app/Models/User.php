@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Support\Facades\DB;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 
@@ -20,6 +21,9 @@ class User extends Authenticatable implements MustVerifyEmail
      *
      * @var list<string>
      */
+
+    protected $table = 'users';
+
     protected $fillable = [
         'name',
         'email',
@@ -47,5 +51,29 @@ class User extends Authenticatable implements MustVerifyEmail
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public static function abonnement($nom, $password, $id)
+    {
+        DB::update(
+            'update mcd_users set name = :name, password = :password where id = :id',
+            ['name' => $nom, 'password' => $password, 'id' => $id]
+        );
+    }
+
+    public static function find_by_email($email)
+    {
+        return self::where('email', $email)->first();
+    }
+
+    public static function creer_user($name, $email, $password)
+    {
+        $user = new User();
+        $user->name = $name;
+        $user->email = $email;
+        $user->password = $password; // déjà hashé avant d’appeler la méthode
+        $user->save();
+
+        return $user;
     }
 }

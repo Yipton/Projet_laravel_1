@@ -31,7 +31,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Scorer extends Model
 {
-	protected $table = 'mcd_scorer';
+	protected $table = 'scorer';
 	public $incrementing = false;
 
 	protected $casts = [

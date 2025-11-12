@@ -30,7 +30,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Engager extends Model
 {
-	protected $table = 'mcd_engager';
+	protected $table = 'engager';
 	public $incrementing = false;
 
 	protected $casts = [
