@@ -1,12 +1,12 @@
 @extends('layouts.default')
 
-@section('title', 'Gestion des abonnements')
+@section('title', 'Accueil')
 
 @section('content')
 <div class="grid">
     <div>
         <br>
-        <a href="{{ route('gestion.supprimer_auto_abo') }}">Formulaire de suppression des demandes</a>
+        <a href="{{ route('gestion.abonnement') }}">Retour au formulaire d'approbation</a>
         <br><br>
         <h1>Liste des demandes d'abonnement</h1>
         <br>
@@ -15,7 +15,7 @@
             {{ session('success') }}
         </div>
         @endif
-        <form method="POST" action="{{ route('gestion.confirmer_auto_abo') }}"
+        <form method="POST" action="{{ route('gestion.supprimer_abo') }}"
             onsubmit="return confirm('Êtes-vous sûr de valider ?');">
             @csrf
             <table>
@@ -25,7 +25,7 @@
                         <td>Nom</td>
                         <td>Prénom</td>
                         <td>Mail</td>
-                        <td>Approuver</td>
+                        <td>Supprimer</td>
                 </thead>
                 <tbody>
                     @foreach ($demandes as $une_demande)
@@ -35,16 +35,15 @@
                         <td>{{ $une_demande->prenom }}</td>
                         <td>{{ $une_demande->email }}</td>
                         <td><select name="statuts[{{ $une_demande->id }}]">
-                                <option value="A">Attendre</option>
-                                <option value="N">Oui</option>
-                                <option value="B">Non (Bloque l'utilisateur)</option>
+                                <option value="non">Attendre</option>
+                                <option value="oui">Oui</option>
                             </select>
                         </td>
                     </tr>
                     @endforeach
                 </tbody>
             </table>
-            <button type="submit">Valider</button>
+            <button type="submit" class="btn_sup">Supprimer</button>
         </form>
     </div>
 </div>

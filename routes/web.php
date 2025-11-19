@@ -64,7 +64,9 @@ Route::prefix('gestion')->group(function () {
     Route::get('/epreuves', [PageController::class, 'epreuves'])->name('gestion.epreuves');
     Route::get('/colleges', [PageController::class, 'colleges'])->name('gestion.colleges');
     Route::get('/abonnement', [PageController::class, 'abonnement'])->name('gestion.abonnement');
-    Route::post('/abonnement', [PageController::class, 'confirmer_auto_abo'])->name('gestion.confirmer_auto_abo');
+    Route::post('/abonnement', [AutoInscriptionsController::class, 'confirmer_auto_abo'])->name('gestion.confirmer_auto_abo');
+    Route::get('/supprimer_auto_abo', [PageController::class, 'supprimer_auto_abo'])->name('gestion.supprimer_auto_abo');
+    Route::post('/supprimer_auto_abo', [AutoInscriptionsController::class, 'supprimer_auto_abo'])->name('gestion.supprimer_abo');
     Route::get('/role', [PageController::class, 'role'])->name('gestion.role');
     Route::get('/edition', [PageController::class, 'edition'])->name('gestion.edition');
     Route::get('/exportation', [PageController::class, 'exportation'])->name('gestion.exportation');

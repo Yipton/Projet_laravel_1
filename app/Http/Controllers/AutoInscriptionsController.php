@@ -38,7 +38,7 @@ class AutoInscriptionsController extends Controller
 
         // Cas 2 : existe déjà + vérifié + pas encore inscrit => on redirige vers mdp oublié
         elseif ($user && $user->hasVerifiedEmail() && !Utilisateur::existe($user->id)) {
-            $view = redirect()->route('password.request')   // 
+            $view = redirect()->route('password.request')
                 ->with('info', 'Ton email est vérifié. Crée ton mot de passe pour terminer ton inscription.');
         }
 
@@ -112,5 +112,34 @@ class AutoInscriptionsController extends Controller
             $return = back()->with('message', 'Un nouveau lien de vérification t’a été envoyé.');
         }
         return $return;
+    }
+
+    public static function confirmer_auto_abo(Request $request)
+    {
+        foreach ($request->input('statuts', []) as $id => $statut) {
+            // 1. On met à jour le statut
+            Utilisateur::update_statut($id, $statut);
+
+            // 2. Si l’utilisateur est validé, on lui donne le rôle
+            if ($statut === 'N') {
+                Utilisateur::update_role($id);
+            }
+        }
+        return redirect()->route('gestion.abonnement')
+            ->with('success', 'Statuts mis à jour.');
+    }
+
+
+    public static function supprimer_auto_abo(Request $request)
+    {
+        $count_delete = 0;
+        foreach ($request->input('statuts', []) as $id => $statut) {
+            if ($statut === 'oui') {
+                Utilisateur::delete_utilisateur($id);
+                $count_delete++;
+            }
+        }
+        return redirect()->route('gestion.abonnement')
+            ->with('success', $count_delete . ' demandes supprimées.');;
     }
 }

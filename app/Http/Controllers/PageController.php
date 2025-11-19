@@ -84,6 +84,11 @@ class PageController extends Controller
         $demandes = Utilisateur::afficher_demandes_abo();
         return view('gestion.abonnement', ['demandes' => $demandes]);
     }
+    public function supprimer_auto_abo()
+    {
+        $demandes = Utilisateur::afficher_demandes_abo();
+        return view('gestion.supprimer_auto_abo', ['demandes' => $demandes]);
+    }
     public function role(): View
     {
         return view('gestion.role');
