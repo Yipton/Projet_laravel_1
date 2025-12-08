@@ -57,14 +57,6 @@ class PageController extends Controller
     {
         return view('classement');
     }
-    public function show2024(): View
-    {
-        return view('edition.2024');
-    }
-    public function show2025(): View
-    {
-        return view('edition.2025');
-    }
 
     public function saisie_note(): View
     {

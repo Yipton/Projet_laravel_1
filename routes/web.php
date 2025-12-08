@@ -4,14 +4,15 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 use App\Http\Controllers\AutoInscriptionsController;
 use App\Http\Controllers\PageController;
+use App\Http\Middleware\CheckRole;
 
 // --- Pages principales ---
 Route::get('/', [PageController::class, 'home'])->name('home');
 Route::get('/mentions', [PageController::class, 'mentions'])->name('mentions');
 
 // --- Préinscription ---
-Route::get('/preinscription', [PageController::class, 'create'])->name('preinscription');
-Route::post('/preinscription', [AutoInscriptionsController::class, 'store'])->name('preinscription.store');
+Route::get('/preinscription', [PageController::class, 'create'])->name('preinscription')->middleware(CheckRole::class . ':1,90');
+Route::post('/preinscription', [AutoInscriptionsController::class, 'store'])->name('preinscription.store')->middleware(CheckRole::class . ':1,90');
 
 // --- Lien de vérification email ---
 Route::get('/email/verify', [PageController::class, 'lien_verif_email_envoye'])
@@ -43,24 +44,20 @@ Route::get('/forgot-password', function () {
 })->middleware('guest')->name('password.request');
 
 // Collèges
-Route::get('/colleges/eleves', [PageController::class, 'eleves'])->name('colleges.eleves');
-Route::get('/colleges/equipe', [PageController::class, 'equipe'])->name('colleges.equipe');
+Route::get('/colleges/eleves', [PageController::class, 'eleves'])->name('colleges.eleves')->middleware(CheckRole::class . ':60,90');
+Route::get('/colleges/equipe', [PageController::class, 'equipe'])->name('colleges.equipe')->middleware(CheckRole::class . ':60,90');
 
 // Épreuves
-Route::get('/epreuves', [PageController::class, 'epreuves'])->name('epreuves.index');
+Route::get('/epreuves', [PageController::class, 'epreuves'])->name('epreuves.index')->middleware(CheckRole::class . ':60,90');
 
 // Classement
 Route::get('/classement', [PageController::class, 'classement'])->name('classement.index');
 
-// Édition
-Route::get('/edition/2024', [PageController::class, 'show2024'])->name('edition.2024');
-Route::get('/edition/2025', [PageController::class, 'show2025'])->name('edition.2025');
-
 // Saisie Note
-Route::get('/saisie-note', [PageController::class, 'saisie_note'])->name('saisieNote.index');
+Route::get('/saisie-note', [PageController::class, 'saisie_note'])->name('saisieNote.index')->middleware(CheckRole::class . ':50,90');
 
 // Page Gestion
-Route::prefix('gestion')->group(function () {
+Route::prefix('gestion')->middleware(CheckRole::class . ':60,90')->group(function () {
     Route::get('/epreuves', [PageController::class, 'epreuves'])->name('gestion.epreuves');
     Route::get('/colleges', [PageController::class, 'colleges'])->name('gestion.colleges');
     Route::get('/abonnement', [PageController::class, 'abonnement'])->name('gestion.abonnement');
@@ -74,23 +71,14 @@ Route::prefix('gestion')->group(function () {
 });
 
 // Page Admin
-Route::prefix('admin')->group(function () {
+Route::prefix('admin')->middleware(CheckRole::class . ':90')->group(function () {
     Route::get('/genre', [PageController::class, 'genre'])->name('admin.genre');
     Route::get('/pays', [PageController::class, 'pays'])->name('admin.pays');
     Route::get('/utilisateurs', [PageController::class, 'utilisateurs'])->name('admin.utilisateurs');
 });
 
-// --- Pages protégées ---
-Route::view('dashboard', 'dashboard')
-    ->middleware(['auth', 'verified'])
-    ->name('dashboard');
-
-Route::view('profile', 'profile')
-    ->middleware(['auth'])
-    ->name('profile');
-
 // --- Collèges ---
-Route::get('/colleges/eleves', [PageController::class, 'eleves'])->name('colleges.eleves');
-Route::get('/colleges/equipe', [PageController::class, 'equipe'])->name('colleges.equipe');
+Route::get('/colleges/eleves', [PageController::class, 'eleves'])->name('colleges.eleves')->middleware(CheckRole::class . ':30,90');
+Route::get('/colleges/equipe', [PageController::class, 'equipe'])->name('colleges.equipe')->middleware(CheckRole::class . ':30,90');
 
 require __DIR__ . '/auth.php';
