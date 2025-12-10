@@ -1,13 +1,3 @@
-<?php
-
-use App\Livewire\Actions\Logout;
-use function Livewire\Volt\action;
-
-$logout = action(function (Logout $logoutAction) {
-    $logoutAction();
-    $this->redirect('/', navigate: true);
-});
-?>
 <nav class="navbar">
     <div class="navbar-brand">
         <a href="{{ route('home') }}">Projet concours-robots</a>
@@ -81,8 +71,7 @@ $logout = action(function (Logout $logoutAction) {
 
         <!-- Déconnexion -->
         <li>
-            @livewire('layout.navigation')
-        </li>
+            @livewire('logout-button') </li>
         @endguest
     </ul>
 </nav>
